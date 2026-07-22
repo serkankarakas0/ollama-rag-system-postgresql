@@ -1,0 +1,16 @@
+# Ortam değişkenleri - API anahtarları burada, ASLA paylaşılmamalı
+.env
+
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# İşletim sistemi dosyaları
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
