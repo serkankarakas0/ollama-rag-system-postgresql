@@ -25,6 +25,8 @@ def build_prompt(question: str, chunks: list[dict]) -> str:
     )
     return (
         "Aşağıda verilen BAĞLAM'a dayanarak soruyu cevapla. "
+        "Sadece BAĞLAM'da yazan bilgiyi kullan; kelimeleri, sayıları ve ifadeleri "
+        "olduğu gibi aktar, yorum katma, çıkarım yapma veya eksik ayrıntı uydurma. "
         "Eğer cevap bağlamda yoksa, bilmediğini açıkça belirt, uydurma bilgi verme.\n\n"
         f"BAĞLAM:\n{context}\n\n"
         f"SORU: {question}\n\n"
@@ -85,6 +87,7 @@ def run_rag_pipeline(question: str, document_id: int | None = None):
             model=OLLAMA_MODEL,
             messages=[{"role": "user", "content": prompt}],
             stream=True,
+            options={"temperature": 0.2},
         )
 
         yield sse_event("step", {"message": "Cevap üretiliyor (lokal olarak)..."})
