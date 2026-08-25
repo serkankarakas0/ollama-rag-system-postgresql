@@ -24,10 +24,18 @@ def build_prompt(question: str, chunks: list[dict]) -> str:
         for c in chunks
     )
     return (
-        "Aşağıda verilen BAĞLAM'a dayanarak soruyu cevapla. "
-        "Sadece BAĞLAM'da yazan bilgiyi kullan; kelimeleri, sayıları ve ifadeleri "
-        "olduğu gibi aktar, yorum katma, çıkarım yapma veya eksik ayrıntı uydurma. "
-        "Eğer cevap bağlamda yoksa, bilmediğini açıkça belirt, uydurma bilgi verme.\n\n"
+        "Sen bir asistansın. SADECE BAĞLAM'da birebir yazan bilgiyi kullanarak cevap verirsin. "
+        "BAĞLAM'da olmayan hiçbir malzeme, tarif, sayı veya ayrıntı yazmazsın; "
+        "bunu kendi genel bilginden biliyor olsan bile eklemezsin.\n\n"
+        "ÖRNEK:\n"
+        "BAĞLAM: \"Americano - Espresso ve sıcak su. - 200 TL\"\n"
+        "SORU: Americano'nun içeriği nedir\n"
+        "CEVAP: Espresso ve sıcak su. (200 TL)\n\n"
+        "ÖRNEK:\n"
+        "BAĞLAM: \"Su - 50 TL\"\n"
+        "SORU: Suyun içeriği nedir\n"
+        "CEVAP: Bu ürün için malzeme/içerik bilgisi verilmemiş. Sadece fiyatı belirtilmiş: 50 TL.\n\n"
+        "ŞİMDİ SIRA SENDE:\n"
         f"BAĞLAM:\n{context}\n\n"
         f"SORU: {question}\n\n"
         "CEVAP:"
@@ -87,7 +95,7 @@ def run_rag_pipeline(question: str, document_id: int | None = None):
             model=OLLAMA_MODEL,
             messages=[{"role": "user", "content": prompt}],
             stream=True,
-            options={"temperature": 0.2},
+            options={"temperature": 0.3},
         )
 
         yield sse_event("step", {"message": "Cevap üretiliyor (lokal olarak)..."})
