@@ -127,6 +127,15 @@ http://localhost:8000
 - **Chunk boyutu**: `.env` içindeki `CHUNK_SIZE` / `CHUNK_OVERLAP` ile ayarlanır.
 - **Birden fazla dosya**: Aynı anda birden fazla dosya yükleyebilir, arayüzden
   belirli bir dosya üzerinde arama yapabilir ya da tüm dosyalarda arattırabilirsiniz.
+- **Halüsinasyon önleme**: `llama3.2:3b` gibi küçük modeller, bağlamda
+  olmayan ayrıntıları (özellikle malzeme/tarif gibi konularda) kendi genel
+  bilgisinden uydurma eğilimindedir. Bunu azaltmak için `rag.py` içindeki
+  prompt, modele "sadece BAĞLAM'da yazanı kullan, bilmiyorsan söyleme"
+  davranışını gösteren few-shot örnekler içerir ve `temperature` düşük
+  tutulur (`0.3`). Bunun bedeli, modelin bazen olması gerekenden daha kısa/
+  az detaylı cevap vermesidir — yanlış bilgi vermek yerine bilinçli olarak
+  bu yönde tercih yapılmıştır. Daha tutarlı ve detaylı cevaplar için daha
+  büyük/daha iyi instruction-following bir model denenebilir.
 
 ## Dosya Yapısı
 
